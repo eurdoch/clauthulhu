@@ -60,11 +60,13 @@ server.tool(
         workingDirectory = worktreeDir;
       }
       
-      // Build the claude command
-      const claudeCommand = prompt ? `claude --dangerously-skip-permissions "${prompt.replace(/"/g, '\\"')}"` : "claude --dangerously-skip-permissions";
+      // Build the claude command with proper escaping
+      const claudeCommand = prompt 
+        ? `claude --dangerously-skip-permissions ${JSON.stringify(prompt)}`
+        : "claude --dangerously-skip-permissions";
       
       // Open a new WezTerm window and run claude command (run in background)
-      execAsync(`wezterm start --cwd "${workingDirectory}" -- bash -c "${claudeCommand}; exec bash"`).catch(() => {
+      execAsync(`wezterm start --cwd "${workingDirectory}" -- bash -c ${JSON.stringify(`${claudeCommand}; exec bash`)}`).catch(() => {
         // Ignore errors since this runs in background
       });
       
