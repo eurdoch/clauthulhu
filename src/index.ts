@@ -1,5 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { exec } from "child_process";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 // Create server instance
 const server = new McpServer({
@@ -14,17 +18,31 @@ const server = new McpServer({
 // Register tentacle tool
 server.tool(
   "tentacle",
-  "A simple tool that reaches out",
+  "Opens a new terminal window",
   {},
   async () => {
-    return {
-      content: [
-        {
-          type: "text",
-          text: "reaching...",
-        },
-      ],
-    };
+    try {
+      // Open a new terminal window on macOS and bring it to front
+      await execAsync('osascript -e \'tell application "Terminal" to do script ""\' -e \'tell application "Terminal" to activate\'');
+      
+      return {
+        content: [
+          {
+            type: "text",
+            text: "Terminal window opened successfully",
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Failed to open terminal: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          },
+        ],
+      };
+    }
   },
 );
 
