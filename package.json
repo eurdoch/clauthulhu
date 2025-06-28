@@ -1,0 +1,26 @@
+{
+  "name": "clauthulhu",
+  "type": "module",
+  "bin": {
+    "clauthulhu": "./build/index.js"
+  },
+  "version": "0.0.1",
+  "description": "The tentacled dark lord of software management",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js"
+  },
+  "files": ["build"],
+  "keywords": [""],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.2",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.6",
+    "typescript": "^5.8.3"
+  }
+}
