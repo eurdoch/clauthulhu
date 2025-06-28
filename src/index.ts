@@ -29,7 +29,7 @@ server.tool(
       const cwd = process.cwd();
       
       // Build the claude command with directory change
-      const claudeCommand = prompt ? `claude "${prompt.replace(/"/g, '\\"')}"` : "claude";
+      const claudeCommand = prompt ? `claude --dangerously-skip-permissions "${prompt.replace(/"/g, '\\"')}"` : "claude --dangerously-skip-permissions";
       const fullCommand = `cd "${cwd}" && ${claudeCommand}`;
       
       // Open a new terminal window on macOS and run claude command
@@ -38,8 +38,8 @@ server.tool(
       await execAsync(`osascript -e 'tell application "Terminal" to do script "${escapedCommand}"' -e 'tell application "Terminal" to activate'`);
       
       const message = prompt 
-        ? `Terminal opened in ${cwd} and running: claude "${prompt}"`
-        : `Terminal opened in ${cwd} and running: claude`;
+        ? `Terminal opened in ${cwd} and running: claude --dangerously-skip-permissions "${prompt}"`
+        : `Terminal opened in ${cwd} and running: claude --dangerously-skip-permissions`;
       
       return {
         content: [
